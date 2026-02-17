@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+    <html lang="fr" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <div th:replace="~{fragments/header :: head}"></div>
+        </head>
+        <body>
+
+        <div th:replace="~{fragments/header :: header}"></div>
+        <div th:replace="~{fragments/nav :: nav}"></div>
+
+        <div class="container special">
+
+            <h2 class="h2">Ajout d'un nouvel utilisateur</h2>
+            <div>
+                <form method="post" th:action="@{/saveusers}" th:object="${users}">
+                    <div class="form-group">
+                        <label for="firstNameInput">Prenom</label>
+                        <input type="text" th:field="*{users.firstName}" class="form-control" id="firstNameInput"
+                                aria-describedby="firstNameHelp" placeholder="Saisir le prenom">
+                        <small id="firstNameHelp" class="form-text text-muted">Merci d'ecrire le prenom de l'utilisateur'</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastNameInput">Nom</label>
+                        <input type="text" th:field="*{users.lastName}" class="form-control" id="lastNameInput"
+                                    aria-describedby="lastNameHelp" placeholder="Saisir le nom">
+                        <small id="lastNameHelp" class="form-text text-muted">Merci d'ecrire le nom de l'utilisateur.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Creer</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div th:replace="~{fragments/footer :: footer }"></div>
+        <div th:replace="~{fragments/footer :: scripts}"></div>
+
+        </body>
+    </html>

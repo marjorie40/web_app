@@ -1,0 +1,50 @@
+#nom du docker-compose
+name: springdocks
+
+#liste des services API / WEB /DB bed_pizza
+services:
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bed_pizza
+    ports:
+      - "3307:3306"    # 3307 sur l'hote : 3306 dans le conteneur (port standard)
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./api/infra/mysql/script.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    #build: ./api
+    image: marjorie40/apispringboot:latest
+    depend_on:
+      - db
+    restart: 
+      - always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/bed_pizza
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+    ports:
+      - "9000:9000"  
+
+  web:
+    build: ./web
+    depend_on:
+      - api
+    restart: 
+      - on-failure
+    environment:
+      FR.POMPEY.CDA24060.WEBAPPDEMO.APIURL: http://api:9000
+
+    ports: 
+      - "9001:9001"
+
+  
+
+
+volumes:
+  db_data:

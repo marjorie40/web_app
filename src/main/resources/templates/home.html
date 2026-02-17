@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+    <html lang="fr" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <div th:replace="~{fragments/header :: head}"></div>
+        </head>
+        <body>
+
+        <div th:replace="~{fragments/header :: header}"></div>
+        <div th:replace="~{fragments/nav :: nav}"></div>
+
+        <div class="container special mt-4">
+            <h2 class="h2">Liste des utilisateurs</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(listAllUsers)}">
+                        <td colspan="3">Aucun utilisateur en base de données</td>
+                    </tr>
+                    <tr th:each="users: ${listAllUsers}">
+                        <td><span th:text="${users.firstname}"> Prénom </span></td>
+                        <td><span th:text="${users.lastname}"> Nom </span></td>
+                        <td>
+                            <a th:href="@{/updateUsers/{id}(id=${users.id_user})}"><button class="btn btn-info">Modifier</button></a>
+                            <a th:href="@{/deleteusers/{id}(id=${users.id_user})}"><button class="btn btn-danger">Supprimer</button></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4><a th:href="@{/createUsers.html}">Ajouter un nouvel utilisateur</a></h4> <!-- strictement meme appellation du template: @{/ avec.html} qui se trouve dans static-->
+        </div>
+
+        <div th:replace="~{fragments/footer :: footer }"></div>
+        <div th:replace="~{fragments/footer :: scripts}"></div>
+        </body>
+    </html>
