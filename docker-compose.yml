@@ -18,11 +18,10 @@ services:
 
   api:
     #build: ./api
-    image: marjorie40/apispringboot:latest
-    depend_on:
+    image: marjorie40/apispringboot2026:latest
+    depends_on:
       - db
-    restart: 
-      - always
+    restart: always
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/bed_pizza
       SPRING_DATASOURCE_USERNAME: root
@@ -32,19 +31,14 @@ services:
       - "9000:9000"  
 
   web:
-    build: ./web
-    depend_on:
+    image: marjorie40/webspringboot2026:latest
+    depends_on:
       - api
-    restart: 
-      - on-failure
+    restart: on-failure
     environment:
       FR.POMPEY.CDA24060.WEBAPPDEMO.APIURL: http://api:9000
-
     ports: 
       - "9001:9001"
-
-  
-
 
 volumes:
   db_data:
